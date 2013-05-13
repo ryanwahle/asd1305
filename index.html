@@ -28,15 +28,23 @@ ASD 1305
 		</header>
 		
 		<section data-role="content">
-			<h1>Today is Monday, April 2nd</h1>
+			<h1>Today is DAY, MONTH DATE</h1>
+
+			<h2>
+				<p>You have not added any TV shows yet!</p>
+				<p>Click the 'Add TV Show' button, located at the bottom of your screen.</p>
+			</h2>
 			
 			<ul data-role="listview">
+<!--
 				<li><a href="#pageAddEditShow">8:00pm Hawaii 5-0</a></li>
 				<li><a href="#pageAddEditShow">9:00pm NCIS</a></li>
 				<li><a href="#pageAddEditShow">10:00pm NCIS: Los Angeles</a></li>
+-->
+
 			</ul>
 		</section>
-		
+	
 		<footer data-role="footer" class="ui-bar" data-position="fixed">
 			<a href="#pageAddEditShow" data-icon="plus">Add TV Show</a>
 		</footer>
@@ -52,51 +60,52 @@ ASD 1305
 		<section data-role="content">
 			<h1>Add/Edit TV Show</h1>
 			
-			<label for="text-showName">TV Show Name:</label>
-			<input type="text" name="text-showName" id="text-showName">
+			<form action="#" method="get">
+				<label for="textshowName">TV Show Name:</label>
+				<input type="text" name="textshowName" id="textshowName">
 			
-			<fieldset data-role="controlgroup">
-				<legend>Day of Week:</legend>
+				<fieldset data-role="controlgroup">
+					<legend>Day of Week:</legend>
 				
-				<input type="checkbox" name="checkbox-Monday" id="checkbox-Monday">
-				<label for="checkbox-Monday">Monday</label>
+					<input type="checkbox" value="1" id="checkboxMonday">
+					<label for="checkboxMonday">Monday</label>
 								
-				<input type="checkbox" name="checkbox-Tuesday" id="checkbox-Tuesday">
-				<label for="checkbox-Tuesday">Tuesday</label>
+					<input type="checkbox" value="2" id="checkboxTuesday">
+					<label for="checkboxTuesday">Tuesday</label>
 				
-				<input type="checkbox" name="checkbox-Wednesday" id="checkbox-Wednesday">
-				<label for="checkbox-Wednesday">Wednesday</label>
+					<input type="checkbox" value="3" id="checkboxWednesday">
+					<label for="checkboxWednesday">Wednesday</label>
 				
-				<input type="checkbox" name="checkbox-Thursday" id="checkbox-Thursday">
-				<label for="checkbox-Thursday">Thursday</label>
+					<input type="checkbox" value="4" id="checkboxThursday">
+					<label for="checkboxThursday">Thursday</label>
 				
-				<input type="checkbox" name="checkbox-Friday" id="checkbox-Friday">
-				<label for="checkbox-Friday">Friday</label>
+					<input type="checkbox" value="5" id="checkboxFriday">
+					<label for="checkboxFriday">Friday</label>
 				
-				<input type="checkbox" name="checkbox-Saturday" id="checkbox-Saturday">
-				<label for="checkbox-Saturday">Saturday</label>
+					<input type="checkbox" value="6" id="checkboxSaturday">
+					<label for="checkboxSaturday">Saturday</label>
 				
-				<input type="checkbox" name="checkbox-Sunday" id="checkbox-Sunday">
-				<label for="checkbox-Sunday">Sunday</label>
+					<input type="checkbox" value="0" id="checkboxSunday">
+					<label for="checkboxSunday">Sunday</label>
 
-			</fieldset>
+				</fieldset>
 			
-			<label for="text-Time">Time:</label>
-			<input type="text" name="text-Time" id="text-Time">
+				<label for="textTime">Time:</label>
+				<input type="text" name="textTime" id="textTime">
 			
-			<label for="number-Duration">Duration in minutes:</label>
-			<input type="number" name="number-Duration" id="number-Duration" pattern="[0-9]*">
+				<label for="numberDuration">Duration in minutes:</label>
+				<input type="number" name="numberDuration" id="numberDuration" pattern="[0-9]*">
 			
-			<label for="number-Channel">TV Channel:</label>
-			<input type="number" name="number-Channel" id="number-Channel" pattern="[0-9]*">
-
+				<label for="numberChannel">TV Channel:</label>
+				<input type="number" name="numberChannel" id="numberChannel" pattern="[0-9]*">
+			</form>
 			
 		</section>
 		
 		<section data-role="footer" class="ui-bar" data-position="fixed">
-			<a href="#" data-icon="check">Save</a>
-			<a href="#" data-icon="back">Cancel</a>
-			<a href="#" data-icon="alert">Delete</a>
+			<a href="#pageMain" data-icon="check" id="buttonSave">Save</a>
+			<a href="#pageMain" data-icon="back" id="buttonCancel">Cancel</a>
+			<a href="#" data-icon="alert" id="buttonDelete">Delete</a>
 		</section>
 	
 	</section>
