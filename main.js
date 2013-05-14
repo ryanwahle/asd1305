@@ -2,9 +2,11 @@
 /* ASD 1305   */
 
 var namesDay =['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+var globalShowKey = '';
 
 $('#pageMain').on('pageinit', function() {
-	console.log('pageinit');
+	// pageinit only initializes once. 
+	// Using pagebeforeshow instead.
 });
 
 $('#pageMain').on('pagebeforeshow', function() {
@@ -30,8 +32,11 @@ $('#pageMain').on('pagebeforeshow', function() {
 		// Display each item on main screen.
 		var tvShow = JSON.parse( localStorage.getItem( index ) );
 
-		$('<li><a href="#pageAddEditShow">' + tvShow.showTime + ' ' + tvShow.showName + '</a></li>')
+		$('<a href="#pageAddEditShow">' + tvShow.showTime + ' ' + tvShow.showName + '</a>')
+			.attr ('key', index)
+			.on('click', function () { globalShowKey = index })
 			.appendTo('#pageMain section ul')
+			.wrap('<li></li>')
 		;
 		
 		$('#pageMain section ul').listview('refresh');
@@ -39,14 +44,21 @@ $('#pageMain').on('pagebeforeshow', function() {
 	});
 });
 
-$('#pageAddEditShow').on('pagebeforeshow', function() {
+$('#pageAddEditShow').on('pagebeforeshow', function(e, data) {
 	// See if there is a key associated with this click.
 	// If there is a key, then load show data and change form to represent edit form
 	// If no key, then change form to represent add form
 
+	// Grab the global key and store in local variable.
+	// Immediately set global key to blank so no confusion later
+	var tvshowKey = globalShowKey;
+	globalShowKey = '';
+
 	// NOTE: NOT SURE HOW TO IMPLEMENT KEY YET, SO THIS IS ALL ONLY FOR ADDING
 	$('#pageAddEditShow section h1').text('Add TV Show');
 	$('#pageAddEditShow #buttonDelete').hide();
+	
+	console.log ('key: ' + tvshowKey);
 });
 
 $('#pageAddEditShow #buttonSave').on('click', function() {
