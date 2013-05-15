@@ -51,14 +51,58 @@ $('#pageAddEditShow').on('pagebeforeshow', function(e, data) {
 
 	// Grab the global key and store in local variable.
 	// Immediately set global key to blank so no confusion later
+	
+	// jQuery seems to keep the previous values so set blank.
+	$('#textshowName').val('');
+	$('#textTime').val('');
+	$('#numberDuration').val('');
+	$('#numberChannel').val('');
+
+	$('#pageAddEditShow input:checkbox:checked').each(function() {
+		$(this).click();
+	});
+
+	// Start of Add or Edit
 	var tvshowKey = globalShowKey;
 	globalShowKey = '';
 
-	// NOTE: NOT SURE HOW TO IMPLEMENT KEY YET, SO THIS IS ALL ONLY FOR ADDING
-	$('#pageAddEditShow section h1').text('Add TV Show');
-	$('#pageAddEditShow #buttonDelete').hide();
+	$('#pageAddEditShow #storageKey').val(tvshowKey);
+
+	if (tvshowKey) {
+		// Edit TV Show
+		// Key found!
+		$('#pageAddEditShow section h1').text('Edit TV Show');
+		$('#pageAddEditShow #buttonDelete').show();
+		
+		var tvShow = JSON.parse(localStorage.getItem(tvshowKey));
+		
+		$('#textshowName').val(tvShow.showName);	
+		$('#textTime').val(tvShow.showTime);
+		$('#numberDuration').val(tvShow.showDuration);
+		$('#numberChannel').val(tvShow.showChannel);
+
+		$.each(tvShow.showDays, function(index, value) {
+			//console.log($('#pageAddEditShow input:checkbox[value="1"]'));
+			$('#pageAddEditShow input:checkbox[value="' + value + '"]').click();
+		});	
 	
-	console.log ('key: ' + tvshowKey);
+	} else {
+		// Add TV Show
+		// No key found!
+		$('#pageAddEditShow section h1').text('Add TV Show');
+		$('#pageAddEditShow #buttonDelete').hide();
+	}
+});
+
+$('#pageAddEditShow #buttonDelete').on('click', function() {
+	if ( confirm('Are you sure you want to delete this TV Show from your reminder list?') ) {
+		// User click OK
+		//console.log($('#pageAddEditShow #storageKey').val());
+		localStorage.removeItem($('#pageAddEditShow #storageKey').val());
+	} else {
+		// User clicked canceled
+		return false;
+	}
 });
 
 $('#pageAddEditShow #buttonSave').on('click', function() {
@@ -74,7 +118,7 @@ $('#pageAddEditShow #buttonSave').on('click', function() {
 	*/
 	
 	var tvShowDays = [];
-	$('input:checkbox:checked').each(function() {
+	$('#pageAddEditShow input:checkbox:checked').each(function() {
 			//console.log( namesDay[$(this).val()] );
 			tvShowDays.push( $(this).val() );
 	});
@@ -90,5 +134,9 @@ $('#pageAddEditShow #buttonSave').on('click', function() {
 	
 	//console.log( tvShow );
 	
-	localStorage.setItem( Math.floor(Math.random()*10000000001), JSON.stringify(tvShow) );	
+	if ($('#pageAddEditShow #storageKey').val() == '') {
+		localStorage.setItem( Math.floor(Math.random()*10000000001), JSON.stringify(tvShow) );
+	} else {
+		localStorage.setItem($('#pageAddEditShow #storageKey').val(), JSON.stringify(tvShow));
+	}
 });
