@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<TVShows>
+	<tvshow>
+			<showName>Hawaii 5-0</showName>
+			<showTime>21:00</showTime>
+			<showDuration>60</showDuration>
+			<showChannel>13</showChannel>
+			<showDays>
+				<day>1</day>
+				<day>3</day>
+			</showDays>
+	</tvshow>
+	
+	<tvshow>
+			<showName>NCIS</showName>
+			<showTime>19:00</showTime>
+			<showDuration>60</showDuration>
+			<showChannel>13</showChannel>
+			<showDays>
+				<day>1</day>
+			</showDays>
+	</tvshow>
+
+
+	<tvshow>
+			<showName>NCIS: Los Angeles</showName>
+			<showTime>20:00</showTime>
+			<showDuration>60</showDuration>
+			<showChannel>13</showChannel>
+			<showDays>
+				<day>1</day>
+			</showDays>
+	</tvshow>
+
+
+	<tvshow>
+			<showName>Tosh.0</showName>
+			<showTime>22:00</showTime>
+			<showDuration>30</showDuration>
+			<showChannel>26</showChannel>
+			<showDays>
+				<day>3</day>
+			</showDays>
+	</tvshow>
+
+
+	<tvshow>
+			<showName>Grey's Anatomy</showName>
+			<showTime>21:00</showTime>
+			<showDuration>60</showDuration>
+			<showChannel>3</showChannel>
+			<showDays>
+				<day>4</day>
+			</showDays>
+	</tvshow>
+</TVShows>

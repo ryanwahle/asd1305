@@ -47,10 +47,22 @@ ASD 1305
 	
 		<footer data-role="footer" class="ui-bar" data-position="fixed">
 			<a href="#pageAddEditShow" data-icon="plus">Add TV Show</a>
+			<a href="#popupImportData" data-rel="popup" data-icon="plus">Import Data</a>
 		</footer>
-	
+
+		<div data-role="popup" id="popupImportData" data-dismissible="false">
+    		<div data-role="header">
+        		<h1>No Data Found</h1>
+    		</div>
+    		<div data-role="content">
+        		<h3>Please choose an input file:</h3>
+        		<p>BUG ALERT: Please click refresh on your browser after you load the data.</p>
+        		<a href="#" id="buttonImportJSON" data-role="button" data-inline="true" data-rel="back">JSON</a>
+        		<a href="#" id="buttonImportXML" data-role="button" data-inline="true" data-rel="back">XML</a>
+    		</div>
+		</div>
 	</section>
-		
+
 <!-- Page: Add/Edit TV Show Page -->
 	<section id="pageAddEditShow" data-role="page">
 		<header data-role="header" data-position="fixed">
@@ -63,11 +75,11 @@ ASD 1305
 			<form action="#" method="get">
 				<input type="hidden" name="storageKey" id="storageKey" value="">
 			
-				<label for="textshowName">TV Show Name:</label>
+				<label for="textshowName">TV Show Name: <span class="required">Required</span></label>
 				<input type="text" name="textshowName" id="textshowName">
 			
 				<fieldset data-role="controlgroup">
-					<legend>Day of Week:</legend>
+					<legend>Day of Week: <span class="required">Required</span></legend>
 				
 					<input type="checkbox" value="1" id="checkboxMonday">
 					<label for="checkboxMonday">Monday</label>
@@ -92,14 +104,14 @@ ASD 1305
 
 				</fieldset>
 			
-				<label for="textTime">Time:</label>
+				<label for="textTime">Time: <span class="required">Required</span></label>
 				<input type="text" name="textTime" id="textTime">
 			
-				<label for="numberDuration">Duration in minutes:</label>
-				<input type="number" name="numberDuration" id="numberDuration" pattern="[0-9]*">
+				<label for="numberDuration">Duration in minutes: <span class="required">Required</span></label>
+				<input type="number" name="numberDuration" id="numberDuration">
 			
-				<label for="numberChannel">TV Channel:</label>
-				<input type="number" name="numberChannel" id="numberChannel" pattern="[0-9]*">
+				<label for="numberChannel">TV Channel: <span class="required">Required</span></label>
+				<input type="number" name="numberChannel" id="numberChannel">
 			</form>
 			
 		</section>

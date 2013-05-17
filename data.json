@@ -1,0 +1,41 @@
+{
+	"tvshow1": {
+		"showName": "Hawaii 5-0",
+		"showTime": "21:00",
+		"showDuration": "60",
+		"showChannel": "13",
+		"showDays": ["1"]
+	},
+	
+	"tvshow2": {
+		"showName": "NCIS",
+		"showTime": "19:00",
+		"showDuration": "60",
+		"showChannel": "13",
+		"showDays": ["1"]
+	},
+
+	"tvshow3": {
+		"showName": "NCIS: Los Angeles",
+		"showTime": "20:00",
+		"showDuration": "60",
+		"showChannel": "13",
+		"showDays": ["1"]
+	},
+
+	"tvshow4": {
+		"showName": "Tosh.0",
+		"showTime": "22:00",
+		"showDuration": "30",
+		"showChannel": "26",
+		"showDays": ["3"]
+	},
+
+	"tvshow5": {
+		"showName": "Grey's Anatomy",
+		"showTime": "21:00",
+		"showDuration": "60",
+		"showChannel": "3",
+		"showDays": ["4"]
+	}
+}
