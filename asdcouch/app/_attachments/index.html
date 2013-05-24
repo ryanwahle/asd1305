@@ -1,29 +1,134 @@
 <!DOCTYPE html>
+
+<!-- 
+Ryan Wahle
+ASD 1305
+--> 
+
+
 <html>
-  <head>
-    <title>My New CouchApp</title>
-    <link rel="stylesheet" href="main.css" type="text/css">
-  </head>
-  <body>
-    <div id="account"></div>
+	<head>
+		<title>TV Reminder</title>
+		<meta charset="UTF-8" />
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<meta name="HandheldFriendly" content="True" />
+		<meta name="MobileOptimized" content="320" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="robots" content="noindex, nofollow" />
+		<meta http-equiv="cleartype" content="on">
+		<link rel="stylesheet" href="jquery/jquery.mobile-1.3.1.min.css" />
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+<!-- Page: Main -->
+	<section id="pageMain" data-role="page">
+		<header data-role="header" data-position="fixed">
+			<h1>TV Reminder</h1>
+		</header>
+		
+		<section data-role="content">
+			<h1>Today is DAY, MONTH DATE</h1>
 
-    <h1>Generated CouchApp</h1>
+			<h2>
+				<p>You have not added any TV shows yet!</p>
+				<p>Click the 'Add TV Show' button, located at the bottom of your screen.</p>
+			</h2>
+			
+			<ul data-role="listview">
+<!--
+				<li><a href="#pageAddEditShow">8:00pm Hawaii 5-0</a></li>
+				<li><a href="#pageAddEditShow">9:00pm NCIS</a></li>
+				<li><a href="#pageAddEditShow">10:00pm NCIS: Los Angeles</a></li>
+-->
 
-    <div id="profile"></div>
-    <div id="items"></div>
+			</ul>
+		</section>
+	
+		<footer data-role="footer" class="ui-bar" data-position="fixed">
+			<a href="#pageAddEditShow" data-icon="plus">Add TV Show</a>
+			<a href="#popupImportData" data-rel="popup" data-icon="plus">Import Data</a>
+		</footer>
 
-    <div id="sidebar">
-      <p>Edit welcome message.</p>
-      <p>Ideas: You could easily turn this into a photo sharing app, or a grocery list, or a chat room.</p>
-    </div>
-  </body>
-  <script src="vendor/couchapp/loader.js"></script>
-  <script type="text/javascript" charset="utf-8">
-    $.couch.app(function(app) {
-      $("#account").evently("account", app);
-      $("#profile").evently("profile", app);
-      $.evently.connect("#account","#profile", ["loggedIn","loggedOut"]);
-      $("#items").evently("items", app);
-    });
-  </script>
+		<div data-role="popup" id="popupImportData" data-dismissible="false">
+    		<div data-role="header">
+        		<h1>No Data Found</h1>
+    		</div>
+    		<div data-role="content">
+        		<h3>Please choose an input file:</h3>
+        		<p>BUG ALERT: Please click refresh on your browser after you load the data.</p>
+        		<a href="#" id="buttonImportJSON" data-role="button" data-inline="true" data-rel="back">JSON</a>
+        		<a href="#" id="buttonImportXML" data-role="button" data-inline="true" data-rel="back">XML</a>
+    		</div>
+		</div>
+	</section>
+
+<!-- Page: Add/Edit TV Show Page -->
+	<section id="pageAddEditShow" data-role="page">
+		<header data-role="header" data-position="fixed">
+			<h1>TV Reminder</h1>
+		</header>
+		
+		<section data-role="content">
+			<h1>Add/Edit TV Show</h1>
+			
+			<form action="#" method="get">
+				<input type="hidden" name="storageKey" id="storageKey" value="">
+			
+				<label for="textshowName">TV Show Name: <span class="required">Required</span></label>
+				<input type="text" name="textshowName" id="textshowName">
+			
+				<fieldset data-role="controlgroup">
+					<legend>Day of Week: <span class="required">Required</span></legend>
+				
+					<input type="checkbox" value="1" id="checkboxMonday">
+					<label for="checkboxMonday">Monday</label>
+								
+					<input type="checkbox" value="2" id="checkboxTuesday">
+					<label for="checkboxTuesday">Tuesday</label>
+				
+					<input type="checkbox" value="3" id="checkboxWednesday">
+					<label for="checkboxWednesday">Wednesday</label>
+				
+					<input type="checkbox" value="4" id="checkboxThursday">
+					<label for="checkboxThursday">Thursday</label>
+				
+					<input type="checkbox" value="5" id="checkboxFriday">
+					<label for="checkboxFriday">Friday</label>
+				
+					<input type="checkbox" value="6" id="checkboxSaturday">
+					<label for="checkboxSaturday">Saturday</label>
+				
+					<input type="checkbox" value="0" id="checkboxSunday">
+					<label for="checkboxSunday">Sunday</label>
+
+				</fieldset>
+			
+				<label for="textTime">Time: <span class="required">Required</span></label>
+				<input type="text" name="textTime" id="textTime">
+			
+				<label for="numberDuration">Duration in minutes: <span class="required">Required</span></label>
+				<input type="number" name="numberDuration" id="numberDuration">
+			
+				<label for="numberChannel">TV Channel: <span class="required">Required</span></label>
+				<input type="number" name="numberChannel" id="numberChannel">
+			</form>
+			
+		</section>
+		
+		<section data-role="footer" class="ui-bar" data-position="fixed">
+			<a href="#pageMain" data-icon="check" id="buttonSave">Save</a>
+			<a href="#pageMain" data-icon="back" id="buttonCancel">Cancel</a>
+			<a href="#pageMain" data-icon="alert" id="buttonDelete">Delete</a>
+		</section>
+	
+	</section>
+
+
+<!-- HTML End -->
+		<script src="jquery/jquery-1.9.1.min.js"></script>
+		<script src="jquery/jquery.mobile-1.3.1.min.js"></script>
+		<script src="main.js"></script>
+	</body>
 </html>
+
