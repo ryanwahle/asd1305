@@ -1,5 +1,6 @@
 /* Ryan Wahle */
 /* ASD 1305   */
+/* blah blah */
 
 var namesDay =['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 var globalShowKey = '';
@@ -7,6 +8,7 @@ var globalShowKey = '';
 $('#pageMain').on('pageinit', function() {
 	// pageinit only initializes once. 
 	// Using pagebeforeshow instead.
+	
 });
 
 $('#pageMain').on('pagebeforeshow', function() {
@@ -28,60 +30,34 @@ $('#pageMain').on('pagebeforeshow', function() {
 	
 	$('#pageMain a[href="#popupImportData"]').hide();
 
-/*	
-	if (localStorage.length == 0) {
-		$('#pageMain a[href="#popupImportData"]').click();
-	} else {
-		// Setup listview if there is any local storage
+	$.couch.db("asd").allDocs({
+		success: function(data) {
+			//console.log('couch.db.allDocs: ', data);
 		
-		$.each (localStorage, function(index) {
-			// Display each item on main screen.
-			var tvShow = JSON.parse( localStorage.getItem( index ) );
-
-			$('<a href="#pageAddEditShow">' + tvShow.showTime + ' ' + tvShow.showName + '</a>')
-				.attr ('key', index)
-				.on('click', function () { globalShowKey = index })
-				.appendTo('#pageMain section ul')
-				.wrap('<li></li>')
-			;
-		
-			$('#pageMain section ul').listview('refresh');
-			$('#pageMain section h2').hide();
-		});
-	}
-*/
-
-	$.ajax({
-		url:		'/asd/_all_docs?include_docs=true',
-		type:		'GET',
-		dataType:	'json',
-		
-		success:	function(data) {
-						//console.log('Retrieved data from clouddb');
-						//console.log(data.rows);
+			$.each(data.rows, function(index, showKey) {
+				if (showKey.id.substr(0,7) != '_design') {
+					//console.log('Found Key/Rev: ', showKey.id, '/', showKey.value.rev);
+				
+					$.couch.db("asd").openDoc(showKey.id, {
+						success: function(tvShow) {
+							//console.log('Adding Item: ', tvShow);
 						
-						$.each(data.rows, function(index, tvShow) {
-							if (tvShow.id.substr(0,7) != '_design') {
-								//console.log(tvShow);
-								
-								$('<a href="#pageAddEditShow">' + tvShow.doc.showTime + ' ' + tvShow.doc.showName + '</a>')
-									.attr ('key', tvShow.id)
-									.on('click', function () { globalShowKey = tvShow.id })
-									.appendTo('#pageMain section ul')
-									.wrap('<li></li>')
-								;
+							$('<a href="#pageAddEditShow">' + tvShow['showTime'] + ' ' + tvShow['showName'] + '</a>')
+										.attr ('key', tvShow['_id'])
+										.on('click', function () { globalShowKey = tvShow['_id'] })
+										.appendTo('#pageMain section ul')
+										.wrap('<li></li>')
+									;
 		
-								$('#pageMain section ul').listview('refresh');
-								$('#pageMain section h2').hide();
-							}
-						});
-					},
-					
-		error:		function(error) {
-						console.log('Error retrieving clouddb records: ', error.statusText);
-					}
+									$('#pageMain section ul').listview('refresh');
+									$('#pageMain section h2').hide();
+						}
+					});
+				}
+			});
+		
+		}
 	});
-
 });
 
 $('#pageMain #buttonImportJSON').on('click', function() {
@@ -169,6 +145,14 @@ $('#pageAddEditShow').on('pagebeforeshow', function(e, data) {
 	$('#pageAddEditShow label[for="numberChannel"] span').hide();
 	$('#pageAddEditShow fieldset[data-role="controlgroup"] legend span').hide();
 
+	$('#pageAddEditShow #checkboxSunday').attr('checked', false).checkboxradio('refresh');
+	$('#pageAddEditShow #checkboxMonday').attr('checked', false).checkboxradio('refresh');
+	$('#pageAddEditShow #checkboxTuesday').attr('checked', false).checkboxradio('refresh');
+	$('#pageAddEditShow #checkboxWednesday').attr('checked', false).checkboxradio('refresh');
+	$('#pageAddEditShow #checkboxThursday').attr('checked', false).checkboxradio('refresh');
+	$('#pageAddEditShow #checkboxFriday').attr('checked', false).checkboxradio('refresh');
+	$('#pageAddEditShow #checkboxSaturday').attr('checked', false).checkboxradio('refresh');
+
 	// Start of Add or Edit
 	var tvshowKey = globalShowKey;
 	globalShowKey = '';
@@ -184,12 +168,7 @@ $('#pageAddEditShow').on('pagebeforeshow', function(e, data) {
 		//var tvShow = JSON.parse(localStorage.getItem(tvshowKey));
 		var tvShow = [];
 		
-		$.ajax({
-			//url:		'http://127.0.0.1:5984/asd/' + tvshowKey,
-			url:		'/asd/' + tvshowKey,
-			type:		'GET',
-			dataType:	'json',
-		
+		$.couch.db("asd").openDoc(tvshowKey, {
 			success:	function(data) {
 							//console.log('Retrieved data from clouddb');
 							//console.log(data.rows);
@@ -207,32 +186,29 @@ $('#pageAddEditShow').on('pagebeforeshow', function(e, data) {
 							$('#textTime').val(tvShow.showTime);
 							$('#numberDuration').val(tvShow.showDuration);
 							$('#numberChannel').val(tvShow.showChannel);
-		
+							
 							$.each(tvShow.showDays, function(index, value) {
 								//console.log($('#pageAddEditShow input:checkbox[value="1"]'));
-								$('#pageAddEditShow input:checkbox[value="' + value + '"]').click();
+								
+								//console.log('data.showDays: '+ value);
+								
+								$('#pageAddEditShow input:checkbox[value="' + value + '"]').attr('checked', true).checkboxradio('refresh');
+								
+								//$('#pageAddEditShow #checkboxMonday').click().checkboxradio('refresh');
 							});	
+							
+							//$('#pageAddEditShow ').trigger('refresh');
 							
 							//console.log('tvShow: ' , tvShow);
 						},
 					
 			error:		function(error) {
-						console.log('Error retrieving clouddb records: ', error.statusText);
+							console.log('Error retrieving clouddb records: ', error.statusText);
 						}
 		});
 		
-		console.log('1');
-		//$('#textshowName').val(tvShow.showName);	
-		//$('#textTime').val(tvShow.showTime);
-		//$('#numberDuration').val(tvShow.showDuration);
-		//$('#numberChannel').val(tvShow.showChannel);
-		//console.log('2');
-		//
-		//$.each(tvShow.showDays, function(index, value) {
-		//	//console.log($('#pageAddEditShow input:checkbox[value="1"]'));
-		//	$('#pageAddEditShow input:checkbox[value="' + value + '"]').click();
-		//});	
-	
+		
+		//console.log('1');	
 	} else {
 		// Add TV Show
 		// No key found!
@@ -245,7 +221,33 @@ $('#pageAddEditShow #buttonDelete').on('click', function() {
 	if ( confirm('Are you sure you want to delete this TV Show from your reminder list?') ) {
 		// User click OK
 		//console.log($('#pageAddEditShow #storageKey').val());
-		localStorage.removeItem($('#pageAddEditShow #storageKey').val());
+		
+		$.couch.db("asd").openDoc($('#pageAddEditShow #storageKey').val(), {
+			success:	function(data) {
+							var doc = {
+								_id: data['_id'],
+								_rev: data['_rev']
+							};
+
+							$.couch.db("asd").removeDoc(doc, {
+								success: function(data) {
+									console.log(data);
+								},
+			
+								error: function(status) {
+									console.log(status);
+								}
+							});
+
+						},
+					
+			error:		function(error) {
+						console.log('Error retrieving clouddb records: ', error.statusText);
+						}
+		});
+
+
+		
 	} else {
 		// User clicked canceled
 		return false;

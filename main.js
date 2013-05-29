@@ -1,5 +1,6 @@
 /* Ryan Wahle */
 /* ASD 1305   */
+/* blah blah */
 
 var namesDay =['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 var globalShowKey = '';
@@ -52,7 +53,7 @@ $('#pageMain').on('pagebeforeshow', function() {
 */
 
 	$.ajax({
-		url:		'http://127.0.0.1:5984/asd/_all_docs?include_docs=true',
+		url:		'/asd/_all_docs?include_docs=true',
 		type:		'GET',
 		dataType:	'json',
 		
