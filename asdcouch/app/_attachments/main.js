@@ -135,15 +135,11 @@ $('#pageAddEditShow').on('pagebeforeshow', function(e, data) {
 	$('#numberDuration').val('');
 	$('#numberChannel').val('');
 	
-	$('#pageAddEditShow input:checkbox:checked').each(function() {
-		$(this).click();
-	});
-
-	$('#pageAddEditShow label[for="textshowName"] span').hide();
-	$('#pageAddEditShow label[for="textTime"] span').hide();
-	$('#pageAddEditShow label[for="numberDuration"] span').hide();
-	$('#pageAddEditShow label[for="numberChannel"] span').hide();
-	$('#pageAddEditShow fieldset[data-role="controlgroup"] legend span').hide();
+	$('#pageAddEditShow label[for="textshowName"] span.required').hide();
+	$('#pageAddEditShow label[for="textTime"] span.required').hide();
+	$('#pageAddEditShow label[for="numberDuration"] span.required').hide();
+	$('#pageAddEditShow label[for="numberChannel"] span.required').hide();
+	$('#pageAddEditShow fieldset[data-role="controlgroup"] span.required').hide();
 
 	$('#pageAddEditShow #checkboxSunday').attr('checked', false).checkboxradio('refresh');
 	$('#pageAddEditShow #checkboxMonday').attr('checked', false).checkboxradio('refresh');
@@ -268,43 +264,43 @@ $('#pageAddEditShow #buttonSave').on('click', function() {
 	
 	// First Validate
 	
-	$('#pageAddEditShow label[for="textshowName"] span').hide();
-	$('#pageAddEditShow label[for="textTime"] span').hide();
-	$('#pageAddEditShow label[for="numberDuration"] span').hide();
-	$('#pageAddEditShow label[for="numberChannel"] span').hide();
-	$('#pageAddEditShow fieldset[data-role="controlgroup"] legend span').hide();
+	$('#pageAddEditShow label[for="textshowName"] span.required').hide();
+	$('#pageAddEditShow label[for="textTime"] span.required').hide();
+	$('#pageAddEditShow label[for="numberDuration"] span.required').hide();
+	$('#pageAddEditShow label[for="numberChannel"] span.required').hide();
+	$('#pageAddEditShow fieldset[data-role="controlgroup"] span.required').hide();
 	
 	var validationError = false;
 	if ($('#pageAddEditShow #textshowName').val().trim() == '') {
-		$('#pageAddEditShow label[for="textshowName"] span').show();
+		$('#pageAddEditShow label[for="textshowName"] span.required').show();
 	
 		console.log('Validation Error: TV Show Name');
 		validationError = true;
 	}
 
 	if ($('#pageAddEditShow #textTime').val().trim() == '') {
-		$('#pageAddEditShow label[for="textTime"] span').show();
+		$('#pageAddEditShow label[for="textTime"] span.required').show();
 
 		console.log('Validation Error: Time');
 		validationError = true;
 	}
 
 	if ($('#pageAddEditShow #numberDuration').val().trim() == '') {
-		$('#pageAddEditShow label[for="numberDuration"] span').show();
+		$('#pageAddEditShow label[for="numberDuration"] span.required').show();
 
 		console.log('Validation Error: Duration');
 		validationError = true;
 	}
 	
 	if ($('#pageAddEditShow #numberChannel').val().trim() == '') {
-		$('#pageAddEditShow label[for="numberChannel"] span').show();
+		$('#pageAddEditShow label[for="numberChannel"] span.required').show();
 
 		console.log('Validation Error: Channel');
 		validationError = true;
 	}
 		
 	if ($('#pageAddEditShow input:checkbox:checked').length == 0) {
-		$('#pageAddEditShow fieldset[data-role="controlgroup"] legend span').show();
+		$('#pageAddEditShow fieldset[data-role="controlgroup"] span.required').show();
 
 		console.log('Validation Error: Day of the week');
 		validationError = true;
@@ -333,12 +329,39 @@ $('#pageAddEditShow #buttonSave').on('click', function() {
 		'showDays': tvShowDays
 	};
 	
-	//console.log( tvShow );
+	console.log( tvShow );
 	
 	// Check to see if this is a new TV Show or editing a TV Show
 	if ($('#pageAddEditShow #storageKey').val() == '') {
-		localStorage.setItem( Math.floor(Math.random()*10000000001), JSON.stringify(tvShow) );
+		$.couch.db("asd").saveDoc(tvShow, {
+			success:	function(data) {
+							console.log(data);
+						},
+			error:		function(error) {
+							console.log(error);
+						}
+		});
 	} else {
-		localStorage.setItem($('#pageAddEditShow #storageKey').val(), JSON.stringify(tvShow));
+		$.couch.db("asd").openDoc($('#pageAddEditShow #storageKey').val(), {
+				success:	function(data) {
+								tvShow['_id'] = data['_id'];
+								tvShow['_rev'] = data['_rev'];
+
+								$.couch.db("asd").saveDoc(tvShow, {
+									success: function(data) {
+										console.log(data);
+									},
+			
+									error: function(status) {
+										console.log(status);
+									}
+								});
+
+							},
+					
+				error:		function(error) {
+								console.log('Error retrieving clouddb records: ', error);
+							}
+			});
 	}
 });
